@@ -27,7 +27,7 @@ form.addEventListener("submit", (evento) => {
         atualizaElemento(itemAtual)
 
 //Refatoração da condicional if else, atualizando um id para cada item
-        itens[itens.findIdex(elemento => elemento.id === existe.id)] = itemAtual
+        itens[itens.findIndex(elemento => elemento.id === existe.id)] = itemAtual
     } else {
         itemAtual.id = itens[itens.length - 1] ? (itens[itens.length - 1].id + 1): 0;
 
@@ -65,7 +65,7 @@ function atualizaElemento(item) {
 //Função para criar botão com evento de click nos itens, e retornar os itens clicados
 function botaoDeleta(id) {
     const elementoBotao = document.createElement("button")
-    elementoBotao.innerText = "x"
+    elementoBotao.innerText = "X"
 
     elementoBotao.addEventListener("click", function() {
         deletaElemento(this.parentNode, id)
