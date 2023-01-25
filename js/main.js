@@ -3,7 +3,7 @@ const lista = document.getElementById("lista")
 const itens = JSON.parse (localStorage.getItem("itens")) || []
 
 itens.forEach((elemento) => {
-    console.log(elemento)
+    criaElemento(elemento)
 } )
 
 form.addEventListener("submit", (evento) => {
@@ -12,6 +12,7 @@ form.addEventListener("submit", (evento) => {
     const nome = evento.target.elements['nome']
     const quantidade = evento.target.elements['quantidade']
     
+// Const para conferir elemento nome no array itens
     const existe = itens.find(elemento => elemento.nome === nome.value)
 
     const itemAtual = {
@@ -19,10 +20,13 @@ form.addEventListener("submit", (evento) => {
         "quantidade": quantidade.value
     }
 
+// COndicional para conferir se o elemento existe
     if (existe) {
         itemAtual.id = existe.id
 
         atualizaElemento(itemAtual)
+
+        itens[existe.id] = itemAtual
     } else {
         itemAtual.id = itens.length
 
@@ -30,10 +34,6 @@ form.addEventListener("submit", (evento) => {
 
         itens.push(itemAtual)
     }
-
-    
-
-    
 
     localStorage.setItem("itens", JSON.stringify(itens))
 
@@ -52,9 +52,26 @@ function criaElemento(item) {
 
     novoItem.innerHTML += item.nome
 
+    novoItem.appendChild(botaoDeleta())
+
     lista.appendChild(novoItem)
 }
 
 function atualizaElemento(item) {
     document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
+}
+
+function botaoDeleta() {
+    const elementoBotao = document.createElement("button")
+    elementoBotao.innerText = "x"
+
+    elementoBotao.addEventListener("click", function() {
+        deletaElemento(this.parentNode)
+    })
+
+    return elementoBotao
+}
+
+function deletaElemento(tag) {
+    tag.remove()
 }
